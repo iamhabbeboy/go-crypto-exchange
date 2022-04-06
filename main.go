@@ -4,11 +4,17 @@ import (
 	"cryptox/app/clients"
 	"flag"
 	"fmt"
+	"github.com/joho/godotenv"
 	"log"
 )
 
 func main() {
-	fiatCurency := flag.String(
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Unable to load Env")
+	}
+
+	fiatCurrency := flag.String(
 		"fiat", "USD", "NG",
 	)
 
@@ -18,7 +24,9 @@ func main() {
 
 	flag.Parse()
 
-	crypto, err := client.FetchCryto(*fiatCurency, *nameOfCrypto)
+	fmt.Println("Processing request.... 🧐")
+
+	crypto, err := client.FetchCrypto(*fiatCurrency, *nameOfCrypto)
 	if err != nil {
 		log.Println(err)
 	}
